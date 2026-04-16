@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FunZone 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFE135;
+    --pink: #FF4F8B;
+    --blue: #3BAAFF;
+    --green: #2ECC71;
+    --orange: #FF7F2A;
+    --purple: #A855F7;
+    --dark: #1A1A2E;
+    --card-bg: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 20px; height: 20px;
+    background: var(--yellow);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+
+  /* Animated background */
+  .bg-blobs {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
+    animation: blobFloat 8s ease-in-out infinite;
+  }
+  .blob1 { width: 400px; height: 400px; background: var(--pink); top: -100px; left: -100px; animation-delay: 0s; }
+  .blob2 { width: 350px; height: 350px; background: var(--blue); bottom: -80px; right: -80px; animation-delay: 2s; }
+  .blob3 { width: 300px; height: 300px; background: var(--purple); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 4s; }
+
+  @keyframes blobFloat {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.1) translateY(-20px); }
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(26,26,46,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 2px solid rgba(255,255,255,0.07);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Boogaloo', cursive;
+    font-size: 2rem;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(255,225,53,0.5);
+  }
+  .logo span { color: var(--pink); }
+  .nav-links { display: flex; gap: 8px; }
+  .nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--yellow); color: var(--dark); }
+
+  /* HERO */
+  .hero {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 70px 20px 50px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--pink);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .hero h1 {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(3rem, 10vw, 6rem);
+    color: white;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .hero h1 .accent { color: var(--yellow); display: inline-block; animation: wiggle 1.5s ease-in-out infinite; }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  .hero p {
+    color: #aaa;
+    font-size: 1.1rem;
+    max-width: 480px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+  }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--yellow); color: var(--dark); }
+  .btn-primary:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 30px rgba(255,225,53,0.4); }
+  .btn-secondary { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.2); }
+  .btn-secondary:hover { border-color: white; background: rgba(255,255,255,0.07); }
+
+  /* FLOATING EMOJIS */
+  .emoji-float {
+    position: absolute;
+    font-size: 2rem;
+    animation: floatUp 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes floatUp {
+    0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-30px) rotate(10deg); opacity: 1; }
+  }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Boogaloo', cursive;
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title span { font-size: 1.6rem; }
+
+  /* GAMES GRID */
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .game-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--card-color, var(--blue));
+    opacity: 0;
+    transition: opacity 0.25s;
+    z-index: 0;
+  }
+  .game-card:hover::before { opacity: 0.12; }
+  .game-card:hover { transform: translateY(-6px); border-color: var(--card-color, var(--blue)); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+  .game-card .icon { font-size: 2.5rem; margin-bottom: 10px; position: relative; z-index: 1; }
+  .game-card .name { color: white; font-weight: 800; font-size: 0.95rem; position: relative; z-index: 1; }
+  .game-card .tag { color: #888; font-size: 0.75rem; margin-top: 4px; position: relative; z-index: 1; }
+
+  /* JOKE CARD */
+  .joke-box {
+    background: linear-gradient(135deg, rgba(255,79,139,0.15), rgba(168,85,247,0.15));
+    border: 2px solid rgba(255,79,139,0.3);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .joke-text {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 8px;
+    min-height: 60px;
+    transition: opacity 0.3s;
+  }
+  .joke-punchline {
+    color: var(--yellow);
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-height: 30px;
+    transition: opacity 0.3s;
+  }
+  .joke-btn {
+    margin-top: 20px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .joke-btn:hover { transform: scale(1.07); background: #ff2d77; }
+
+  /* MEME / TRIVIA */
+  .trivia-box {
+    background: rgba(59,170,255,0.1);
+    border: 2px solid rgba(59,170,255,0.25);
+    border-radius: 24px;
+    padding: 28px;
+  }
+  .trivia-q {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.4rem;
+    color: white;
+    margin-bottom: 18px;
+  }
+  .trivia-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .trivia-opt {
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 12px;
+    color: #ddd;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .trivia-opt:hover { background: rgba(59,170,255,0.2); border-color: var(--blue); color: white; }
+  .trivia-opt.correct { background: rgba(46,204,113,0.25); border-color: var(--green); color: var(--green); }
+  .trivia-opt.wrong { background: rgba(255,79,139,0.2); border-color: var(--pink); color: var(--pink); }
+  .trivia-result { margin-top: 16px; font-weight: 800; font-size: 1.1rem; text-align: center; min-height: 28px; }
+  .trivia-next {
+    display: none;
+    margin: 16px auto 0;
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .trivia-next:hover { transform: scale(1.05); }
+
+  /* SPIN WHEEL */
+  .wheel-section { text-align: center; }
+  .wheel-wrapper { position: relative; display: inline-block; margin: 20px auto; }
+  canvas#wheel { border-radius: 50%; box-shadow: 0 0 40px rgba(255,225,53,0.3); }
+  .wheel-pointer {
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-right: 28px solid var(--yellow);
+    filter: drop-shadow(0 0 6px rgba(255,225,53,0.8));
+  }
+  .spin-btn {
+    background: var(--yellow);
+    color: var(--dark);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .spin-btn:hover { transform: scale(1.06); }
+  .spin-result {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.5rem;
+    color: var(--yellow);
+    margin-top: 12px;
+    min-height: 36px;
+  }
+
+  /* FACT CARDS */
+  .facts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .fact-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 20px;
+    padding: 22px;
+    border-left: 4px solid var(--accent, var(--orange));
+    transition: transform 0.2s;
+  }
+  .fact-card:hover { transform: translateY(-4px); }
+  .fact-card .fact-icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .fact-card p { color: #ccc; font-size: 0.92rem; line-height: 1.5; }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 40px 20px;
+    color: #555;
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  footer .footer-logo { font-family: 'Boogaloo', cursive; font-size: 1.5rem; color: var(--yellow); margin-bottom: 8px; }
+
+  /* SCORE DISPLAY */
+  .score-bar {
+    background: rgba(255,255,255,0.05);
+    border-radius: 50px;
+    padding: 8px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 800;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .score-bar .score-num { color: var(--yellow); font-family: 'Boogaloo', cursive; font-size: 1.3rem; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<div class="bg-blobs">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Fun<span>Zone</span> 🎉</div>
+  <div class="nav-links">
+    <a href="#games">Games</a>
+    <a href="#jokes">Jokes</a>
+    <a href="#trivia">Trivia</a>
+    <a href="#spin">Spin</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" style="position:relative;">
+  <div class="emoji-float" style="top:20px;left:8%;animation-delay:0s;">🎈</div>
+  <div class="emoji-float" style="top:60px;right:10%;animation-delay:1s;">🎮</div>
+  <div class="emoji-float" style="bottom:0px;left:15%;animation-delay:2s;">🤣</div>
+  <div class="emoji-float" style="bottom:10px;right:8%;animation-delay:1.5s;">🎯</div>
+
+  <div class="hero-badge">✨ Entertainment for everyone</div>
+  <h1>Welcome to <span class="accent">FunZone</span>!</h1>
+  <p>Your daily dose of laughter, games, trivia & surprises. Boredom is officially banned here. 🚫😴</p>
+  <div class="hero-btns">
+    <a href="#games" class="btn btn-primary">🎮 Let's Play</a>
+    <a href="#jokes" class="btn btn-secondary">😂 Tell Me a Joke</a>
+  </div>
+</div>
+
+<!-- GAMES -->
+<section id="games">
+  <div class="section-title"><span>🎮</span> Mini Games</div>
+  <div class="games-grid">
+    <div class="game-card" style="--card-color:#FF4F8B;" onclick="startGame('emoji-match')">
+      <div class="icon">🃏</div>
+      <div class="name">Emoji Match</div>
+      <div class="tag">Memory</div>
+    </div>
+    <div class="game-card" style="--card-color:#3BAAFF;" onclick="startGame('click-speed')">
+      <div class="icon">⚡</div>
+      <div class="name">Click Speed</div>
+      <div class="tag">Reaction</div>
+    </div>
+    <div class="game-card" style="--card-color:#2ECC71;" onclick="startGame('number-guess')">
+      <div class="icon">🔢</div>
+      <div class="name">Number Guess</div>
+      <div class="tag">Logic</div>
+    </div>
+    <div class="game-card" style="--card-color:#FF7F2A;" onclick="startGame('word-scramble')">
+      <div class="icon">📝</div>
+      <div class="name">Word Scramble</div>
+      <div class="tag">Words</div>
+    </div>
+    <div class="game-card" style="--card-color:#A855F7;" onclick="startGame('color-match')">
+      <div class="icon">🎨</div>
+      <div class="name">Color Rush</div>
+      <div class="tag">Speed</div>
+    </div>
+    <div class="game-card" style="--card-color:#FFE135;" onclick="startGame('rock-paper')">
+      <div class="icon">✊</div>
+      <div class="name">Rock Paper</div>
+      <div class="tag">Classic</div>
+    </div>
+  </div>
+
+  <!-- MINI GAME AREA -->
+  <div id="game-area" style="margin-top:24px;"></div>
+</section>
+
+<!-- JOKES -->
+<section id="jokes">
+  <div class="section-title"><span>😂</span> Joke Machine</div>
+  <div class="joke-box">
+    <div class="joke-text" id="joke-setup">Why don't scientists trust atoms?</div>
+    <div class="joke-punchline" id="joke-punchline">Because they make up everything! 😄</div>
+    <button class="joke-btn" onclick="nextJoke()">🎲 Next Joke</button>
+  </div>
+</section>
+
+<!-- TRIVIA -->
+<section id="trivia">
+  <div class="section-title"><span>🧠</span> Fun Trivia</div>
+  <div class="score-bar">🏆 Score: <span class="score-num" id="trivia-score">0</span></div>
+  <div class="trivia-box">
+    <div class="trivia-q" id="trivia-q">Loading...</div>
+    <div class="trivia-options" id="trivia-opts"></div>
+    <div class="trivia-result" id="trivia-result"></div>
+    <button class="trivia-next" id="trivia-next" onclick="loadTrivia()">Next Question →</button>
+  </div>
+</section>
+
+<!-- SPIN WHEEL -->
+<section id="spin">
+  <div class="section-title"><span>🎡</span> Spin the Wheel</div>
+  <div class="wheel-section">
+    <div class="wheel-wrapper">
+      <canvas id="wheel" width="260" height="260"></canvas>
+      <div class="wheel-pointer"></div>
+    </div>
+    <br>
+    <button class="spin-btn" onclick="spinWheel()">🎰 SPIN!</button>
+    <div class="spin-result" id="spin-result"></div>
+  </div>
+</section>
+
+<!-- FUN FACTS -->
+<section id="facts">
+  <div class="section-title"><span>🤯</span> Did You Know?</div>
+  <div class="facts-grid">
+    <div class="fact-card" style="--accent:#FF4F8B;">
+      <div class="fact-icon">🐙</div>
+      <p>Octopuses have three hearts, blue blood, and can change color — but they're also surprisingly intelligent problem solvers!</p>
+    </div>
+    <div class="fact-card" style="--accent:#3BAAFF;">
+      <div class="fact-icon">🍦</div>
+      <p>The ice cream cone was invented accidentally at the 1904 World's Fair when a waffle vendor helped an ice cream seller who ran out of cups.</p>
+    </div>
+    <div class="fact-card" style="--accent:#2ECC71;">
+      <div class="fact-icon">🌍</div>
+      <p>There are more possible games of chess than there are atoms in the observable universe!</p>
+    </div>
+    <div class="fact-card" style="--accent:#A855F7;">
+      <div class="fact-icon">🦦</div>
+      <p>Sea otters hold hands while sleeping so they don't drift apart from each other. Nature's cutest safety feature!</p>
+    </div>
+    <div class="fact-card" style="--accent:#FF7F2A;">
+      <div class="fact-icon">🍌</div>
+      <p>Bananas are technically berries, but strawberries are not. Botany is wild!</p>
+    </div>
+    <div class="fact-card" style="--accent:#FFE135;">
+      <div class="fact-icon">😂</div>
+      <p>Laughing 100 times is roughly equivalent to 10 minutes of rowing. So reading this site is basically a workout!</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">FunZone 🎉</div>
+  <p>Made with ❤️ and too many jokes · Stay happy, stay weird!</p>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+// === JOKES ===
+const jokes = [
+  { setup: "Why don't scientists trust atoms?", punch: "Because they make up everything! 😄" },
+  { setup: "I told my wife she should embrace her mistakes.", punch: "She gave me a hug. 🤗" },
+  { setup: "Why can't you give Elsa a balloon?", punch: "She'll let it go! ❄️" },
+  { setup: "What do you call a fish without eyes?", punch: "A fsh! 🐟" },
+  { setup: "Why did the scarecrow win an award?", punch: "He was outstanding in his field! 🌾" },
+  { setup: "What do you call cheese that isn't yours?", punch: "Nacho cheese! 🧀" },
+  { setup: "Why did the math book look so sad?", punch: "Because it had too many problems! 📚" },
+  { setup: "What did one wall say to the other?", punch: "I'll meet you at the corner! 🧱" },
+];
+let jokeIdx = 0;
+function nextJoke() {
+  jokeIdx = (jokeIdx + 1) % jokes.length;
+  const s = document.getElementById('joke-setup');
+  const p = document.getElementById('joke-punchline');
+  s.style.opacity = 0; p.style.opacity = 0;
+  setTimeout(() => {
+    s.textContent = jokes[jokeIdx].setup;
+    p.textContent = jokes[jokeIdx].punch;
+    s.style.opacity = 1; p.style.opacity = 1;
+  }, 300);
+}
+
+// === TRIVIA ===
+const triviaData = [
+  { q: "What is the capital of Australia?", opts: ["Sydney","Melbourne","Canberra","Perth"], ans: 2 },
+  { q: "How many legs does a spider have?", opts: ["6","8","10","4"], ans: 1 },
+  { q: "Which planet is closest to the Sun?", opts: ["Venus","Earth","Mars","Mercury"], ans: 3 },
+  { q: "What color is a flamingo when born?", opts: ["Pink","White/Grey","Red","Yellow"], ans: 1 },
+  { q: "How many sides does a hexagon have?", opts: ["5","7","6","8"], ans: 2 },
+  { q: "What gas do plants absorb from the air?", opts: ["Oxygen","Nitrogen","Carbon Dioxide","Hydrogen"], ans: 2 },
+  { q: "Which ocean is the largest?", opts: ["Atlantic","Indian","Arctic","Pacific"], ans: 3 },
+  { q: "What is 12 × 12?", opts: ["124","144","132","148"], ans: 1 },
+];
+let triviaIdx = 0, triviaScore = 0, triviaAnswered = false;
+
+function loadTrivia() {
+  triviaAnswered = false;
+  const t = triviaData[triviaIdx % triviaData.length];
+  document.getElementById('trivia-q').textContent = t.q;
+  document.getElementById('trivia-result').textContent = '';
+  document.getElementById('trivia-next').style.display = 'none';
+  const opts = document.getElementById('trivia-opts');
+  opts.innerHTML = '';
+  t.opts.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'trivia-opt';
+    btn.textContent = o;
+    btn.onclick = () => checkTrivia(i, t.ans, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function checkTrivia(chosen, correct, btn) {
+  if (triviaAnswered) return;
+  triviaAnswered = true;
+  const all = document.querySelectorAll('.trivia-opt');
+  all.forEach((b, i) => {
+    if (i === correct) b.classList.add('correct');
+    else if (b === btn) b.classList.add('wrong');
+  });
+  const res = document.getElementById('trivia-result');
+  if (chosen === correct) {
+    triviaScore++;
+    document.getElementById('trivia-score').textContent = triviaScore;
+    res.style.color = '#2ECC71';
+    res.textContent = '✅ Correct! You\'re on fire!';
+  } else {
+    res.style.color = '#FF4F8B';
+    res.textContent = '❌ Wrong! Better luck next time!';
+  }
+  triviaIdx++;
+  document.getElementById('trivia-next').style.display = 'block';
+}
+loadTrivia();
+
+// === SPIN WHEEL ===
+const segments = ['🍕 Pizza','🎮 Gaming','😴 Nap','💃 Dance','🤣 Joke','🍦 Ice Cream','📚 Read','🎵 Music'];
+const colors = ['#FF4F8B','#3BAAFF','#2ECC71','#FF7F2A','#A855F7','#FFE135','#FF6B6B','#4ECDC4'];
+let angle = 0, spinning = false;
+
+function drawWheel(rot) {
+  const canvas = document.getElementById('wheel');
+  const ctx = canvas.getContext('2d');
+  const cx = 130, cy = 130, r = 120;
+  const arc = (2 * Math.PI) / segments.length;
+  ctx.clearRect(0,0,260,260);
+  segments.forEach((seg, i) => {
+    const start = rot + i * arc;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, start, start + arc);
+    ctx.closePath();
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(start + arc / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 11px Nunito';
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 4;
+    ctx.fillText(seg, r - 8, 5);
+    ctx.restore();
+  });
+  ctx.beginPath();
+  ctx.arc(cx,cy,22,0,2*Math.PI);
+  ctx.fillStyle = '#1A1A2E';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+}
+
+function spinWheel() {
+  if (spinning) return;
+  spinning = true;
+  document.getElementById('spin-result').textContent = '';
+  const extraSpins = (Math.random() * 5 + 5) * 2 * Math.PI;
+  const target = angle + extraSpins;
+  const duration = 3000;
+  const start = performance.now();
+  const startAngle = angle;
+  function animate(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 4);
+    angle = startAngle + extraSpins * ease;
+    drawWheel(angle);
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      spinning = false;
+      const arc = (2 * Math.PI) / segments.length;
+      const norm = ((-angle % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+      const idx = Math.floor(norm / arc) % segments.length;
+      document.getElementById('spin-result').textContent = '🎉 ' + segments[idx] + '!';
+    }
+  }
+  requestAnimationFrame(animate);
+}
+drawWheel(0);
+
+// === MINI GAMES ===
+function startGame(type) {
+  const area = document.getElementById('game-area');
+  if (type === 'number-guess') {
+    const num = Math.floor(Math.random()*100)+1;
+    let tries = 0;
+    area.innerHTML = `
+      <div style="background:rgba(255,255,255,0.05);border-radius:20px;padding:24px;border:2px solid rgba(255,127,42,0.3);">
+        <div style="font-family:'Boogaloo',cursive;font-size:1.5rem;color:white;margin-bottom:16px;">🔢 Guess the Number (1-100)</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <input id="guess-input" type="number" min="1" max="100" placeholder="Your guess..."
+            style="flex:1;padding:10px 16px;border-radius:12px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:white;font-size:1rem;font-family:'Nunito',sans-serif;outline:none;">
+          <button onclick="checkGuess(${num})" style="background:var(--orange);color:white;border:none;padding:10px 20px;border-radius:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;">Guess!</button>
+        </div>
+        <div id="guess-result" style="margin-top:14px;font-weight:700;color:#ccc;min-height:24px;"></div>
+      </div>`;
+  } else if (type === 'rock-paper') {
+    area.innerHTML = `
+      <div style="background:rgba(255,255,255,0.05);border-radius:20px;padding:24px;border:2px solid rgba(168,85,247,0.3);text-align:center;">
+        <div style="font-family:'Boogaloo',cursive;font-size:1.5rem;color:white;margin-bottom:16px;">✊ Rock Paper Scissors</div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          ${['✊ Rock','✋ Paper','✌️ Scissors'].map((v,i)=>`<button onclick="playRPS(${i})" style="background:rgba(168,85,247,0.2);border:2px solid rgba(168,85,247,0.4);color:white;padding:14px 20px;border-radius:16px;font-size:1rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;" onmouseover="this.style.background='rgba(168,85,247,0.4)'" onmouseout="this.style.background='rgba(168,85,247,0.2)'">${v}</button>`).join('')}
+        </div>
+        <div id="rps-result" style="margin-top:18px;font-family:'Boogaloo',cursive;font-size:1.4rem;color:var(--yellow);min-height:36px;"></div>
+      </div>`;
+  } else if (type === 'click-speed') {
+    let count = 0, active = false, timer = null;
+    area.innerHTML = `
+      <div style="background:rgba(255,255,255,0.05);border-radius:20px;padding:24px;border:2px solid rgba(59,170,255,0.3);text-align:center;">
+        <div style="font-family:'Boogaloo',cursive;font-size:1.5rem;color:white;margin-bottom:8px;">⚡ Click Speed Test</div>
+        <div style="color:#aaa;margin-bottom:16px;">Click as many times as you can in 5 seconds!</div>
+        <button id="clicker-btn" onclick="handleClick()" style="background:var(--blue);color:white;border:none;padding:20px 40px;border-radius:20px;font-size:1.3rem;font-weight:800;cursor:pointer;font-family:'Boogaloo',cursive;transition:all 0.1s;active:transform:scale(0.95);">🖱️ START CLICKING!</button>
+        <div id="click-count" style="font-family:'Boogaloo',cursive;font-size:2.5rem;color:var(--yellow);margin-top:12px;">0</div>
+        <div id="click-time" style="color:#888;font-size:0.9rem;"></div>
+      </div>`;
+    window.handleClick = function() {
+      if (!active) {
+        active = true; count = 0;
+        document.getElementById('click-time').textContent = '⏱️ 5 seconds...';
+        timer = setInterval(() => {
+          document.getElementById('click-time').textContent = '';
+          document.getElementById('clicker-btn').disabled = true;
+          document.getElementById('clicker-btn').style.opacity = '0.5';
+          document.getElementById('click-time').textContent = `🎯 Final: ${count} clicks in 5 sec!`;
+          clearInterval(timer); active = false;
+        }, 5000);
+      }
+      count++;
+      document.getElementById('click-count').textContent = count;
+    };
+  }
+  area.scrollIntoView({behavior:'smooth'});
+}
+
+window.checkGuess = function(num) {
+  const val = parseInt(document.getElementById('guess-input').value);
+  const res = document.getElementById('guess-result');
+  if (!val || val < 1 || val > 100) { res.style.color='#FF4F8B'; res.textContent='Enter a number between 1-100!'; return; }
+  if (val === num) { res.style.color='#2ECC71'; res.textContent=`🎉 Correct! The number was ${num}!`; }
+  else if (val < num) { res.style.color='#3BAAFF'; res.textContent='⬆️ Too low! Try higher.'; }
+  else { res.style.color='#FF7F2A'; res.textContent='⬇️ Too high! Try lower.'; }
+};
+
+window.playRPS = function(choice) {
+  const cpu = Math.floor(Math.random()*3);
+  const labels = ['✊ Rock','✋ Paper','✌️ Scissors'];
+  const wins = [[false,false,true],[true,false,false],[false,true,false]];
+  const res = document.getElementById('rps-result');
+  let out = `You: ${labels[choice]} vs CPU: ${labels[cpu]} → `;
+  if (choice===cpu) { res.style.color='#FFE135'; out+="🤝 It's a tie!"; }
+  else if (wins[choice][cpu]) { res.style.color='#2ECC71'; out+="🎉 You win!"; }
+  else { res.style.color='#FF4F8B'; out+="😅 CPU wins!"; }
+  res.textContent = out;
+};
+</script>
+</body>
+</html>
